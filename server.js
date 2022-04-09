@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
   );
 });
 
-app.get("/api/createUser", (req, res) => {
+app.get("/createUser", (req, res) => {
   var request = req.query;
   var data = {
     Email: request.email,
@@ -28,7 +28,7 @@ app.get("/api/createUser", (req, res) => {
   });
 });
 
-app.get("/api/readUser", (req, res) => {
+app.get("/readUser", (req, res) => {
   var request = req.query;
   db.user.findOne(
     { Email: request.email, Password: request.password },
@@ -48,7 +48,7 @@ app.get("/api/readUser", (req, res) => {
   );
 });
 
-app.get("/api/createHolding", (req, res) => {
+app.get("/createHolding", (req, res) => {
   var request = req.query;
   var data = {
     Email: request.email,
@@ -67,7 +67,7 @@ app.get("/api/createHolding", (req, res) => {
   });
 });
 
-app.get("/api/updateWallet", (req, res) => {
+app.get("/updateWallet", (req, res) => {
   var request = req.query;
   var id = request._id;
   var wallet = request.wallet;
@@ -78,7 +78,7 @@ app.get("/api/updateWallet", (req, res) => {
   });
 });
 
-app.get("/api/readHoldingById", (req, res) => {
+app.get("/readHoldingById", (req, res) => {
   var request = req.query;
   db.sells.find(
     { $and: [{ Id: request.id }, { Active: true }] },
@@ -90,7 +90,7 @@ app.get("/api/readHoldingById", (req, res) => {
   );
 });
 
-app.get("/api/readHoldings", (req, res) => {
+app.get("/readHoldings", (req, res) => {
   db.sells.find(
     { $and: [ { Active: true }, { AdminActive: true },{Sold:false}] },
     (err, result) => {
@@ -101,7 +101,7 @@ app.get("/api/readHoldings", (req, res) => {
   );
 });
 
-app.get("/api/removeHoliding", (req, res) => {
+app.get("/removeHoliding", (req, res) => {
   db.sells.updateOne(
     { _id: req.query.id },
     { Active: false },
@@ -113,7 +113,7 @@ app.get("/api/removeHoliding", (req, res) => {
   );
 });
 
-app.get("/api/createTransaction", (req, res) => {
+app.get("/createTransaction", (req, res) => {
   var request = req.query;
   var data = {
     From: request.from,
@@ -135,7 +135,7 @@ app.get("/api/createTransaction", (req, res) => {
   });
 });
 
-app.get("/api/readTransacionByEmail", (req, res) => {
+app.get("/readTransacionByEmail", (req, res) => {
   var request = req.query;
   var Emails = request.email;
   db.transactions.find(
@@ -148,7 +148,7 @@ app.get("/api/readTransacionByEmail", (req, res) => {
   );
 });
 
-app.get("/api/readTransactions", (req, res) => {
+app.get("/readTransactions", (req, res) => {
   db.transactions.find({}, (err, result) => {
     console.log(result, err);
     if (err) res.json({ success: false });
