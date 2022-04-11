@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-var db = 'mongodb+srv://jsx0:jsx0@cluster1.w9byh.mongodb.net/dapp-energy?retryWrites=true&w=majority';
+var db = 'mongodb://jsx0:jsx0@cluster1-shard-00-00.w9byh.mongodb.net:27017,cluster1-shard-00-01.w9byh.mongodb.net:27017,cluster1-shard-00-02.w9byh.mongodb.net:27017/dapp-energy?ssl=true&replicaSet=atlas-e0dj3o-shard-0&authSource=admin&retryWrites=true&w=majority';
 var Schema = mongoose.Schema;
 
 mongoose.connect(db).then(()=>{
@@ -7,6 +7,7 @@ mongoose.connect(db).then(()=>{
 }).catch((err)=>{
     console.log("Error : "+err);
 });
+
 
 let users = new mongoose.Schema({
     Email: {type:String,unique:true,dropDups:true,required:true},

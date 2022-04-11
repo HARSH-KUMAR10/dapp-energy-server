@@ -101,7 +101,19 @@ app.get("/readHoldings", (req, res) => {
   );
 });
 
+app.get("/readHoldingsNotActive", (req, res) => {
+  db.sells.find(
+    { $and: [ { Active: true }, { AdminActive: false },{Sold:false}] },
+    (err, result) => {
+      console.log(result, err);
+      if (err) res.json({ success: false });
+      else res.json({ success: true, data: result });
+    }
+  );
+});
+
 app.get("/removeHoliding", (req, res) => {
+  console.log('id:',req.query.id)
   db.sells.updateOne(
     { _id: req.query.id },
     { Active: false },
