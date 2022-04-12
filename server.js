@@ -3,9 +3,8 @@ const app = express();
 const PORT = process.env.PORT || 8001;
 const db = require("./db");
 const cors = require("cors");
-const e = require("express");
-const { request } = require("express");
-
+const Gun = require('gun');
+app.use(Gun.serve);
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -134,18 +133,33 @@ app.get("/createTransaction", (req, res) => {
     Total: request.total,
   };
   db.transactions.collection.insertOne(data, (err, result) => {
-    console.table(result, err);
+    // console.table(result, err);
+    if(!err){
+      console.log('id:',req.query.id);
     db.sells.updateOne(
-        { _id: req.query.id },
+        { Id: req.query.id },
         { Sold: true },
-        (err, result) => {
-          console.log(result, err);
-          if (err) res.json({ success: false });
+        (err1, result1) => {
+          // console.log(result, err);
+          console.log('data updated : ',result1);
+          if (err1) res.json({ success: false });
           else res.json({ success: true, data: result });
         }
       );
+    }else{
+      res.json({success:false})
+    }
   });
 });
+
+app.get('/getGunTransaction',(req,res)=>{
+  try{
+    res.json({success:true,data:gunDataArray});
+  }catch(err){
+    console.log(err);
+    res.json({success:false});
+  }
+})
 
 app.get("/readTransacionByEmail", (req, res) => {
   var request = req.query;
@@ -168,6 +182,9 @@ app.get("/readTransactions", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+
+
+const server = app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
 });
+Gun({ web: server });

@@ -11,6 +11,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
+    "gun": "^0.2020.1236",
     "js-regression": "^1.0.10",
     "ml-logistic-regression": "^2.0.0",
     "mongoose": "^6.2.7"
