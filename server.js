@@ -6,6 +6,7 @@ const cors = require("cors");
 const Gun = require('gun');
 app.use(Gun.serve);
 app.use(cors());
+const mongoose = require("mongoose");
 
 app.get("/", (req, res) => {
   res.send(
@@ -124,6 +125,32 @@ app.get("/removeHoliding", (req, res) => {
   );
 });
 
+app.get("/adminRemoveHoliding", (req, res) => {
+  console.log('id:',req.query.id)
+  db.sells.findByIdAndUpdate(
+    req.query.id,
+    { AdminActive: false },
+    (err, result) => {
+      console.log(result, err);
+      if (err) res.json({ success: false });
+      else res.json({ success: true, data: result });
+    }
+  );
+});
+
+app.get("/approveHoliding", (req, res) => {
+  console.log('id:',req.query.id)
+  db.sells.findByIdAndUpdate(
+    req.query.id,
+    { AdminActive: true },
+    (err, result) => {
+      console.log(result, err);
+      if (err) res.json({ success: false });
+      else res.json({ success: true, data: result });
+    }
+  );
+});
+
 app.get("/createTransaction", (req, res) => {
   var request = req.query;
   var data = {
@@ -132,20 +159,22 @@ app.get("/createTransaction", (req, res) => {
     Units: request.units,
     Total: request.total,
   };
-  db.transactions.collection.insertOne(data, (err, result) => {
-    // console.table(result, err);
+  db.transactions.collection.insertOne(data, async(err, result) => {
+    console.table(result);
+    console.table(err);
     if(!err){
-      console.log('id:',req.query.id);
-    db.sells.updateOne(
-        { Id: req.query.id },
-        { Sold: true },
-        (err1, result1) => {
-          // console.log(result, err);
+      console.log('-id:',req.query.id);
+      const userObjectId = mongoose.Types.ObjectId(req.query.id);
+    await db.sells.updateOne(
+        {_id:userObjectId},
+        { $set:{Sold: true} },
+        async(err1, result1) => {
+          console.log('result:\n',result1,'error:\n', err1);
           console.log('data updated : ',result1);
           if (err1) res.json({ success: false });
-          else res.json({ success: true, data: result });
+          else res.json({ success: true, data: result1 });
         }
-      );
+      ).clone().catch(function(err){ console.log(err)});
     }else{
       res.json({success:false})
     }
