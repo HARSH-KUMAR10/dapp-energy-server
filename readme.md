@@ -29,7 +29,7 @@ This repo is only the server of dapp-energy. You can download the front-end (Rea
 <tr>
 <td>/</td>
 <td>The initial route</td>
-<td>```<h1 style="text-align:center">Welcome to the server of Energy Share</h1>```</td>
+<td><code><h1 style="text-align:center">Welcome to the server of Energy Share</h1></code></td>
 </tr>
 
 <tr>
