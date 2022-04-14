@@ -5,9 +5,11 @@
 2) Open the code folder in you desired code editor (Mine:VSCode)
 
 3) Install all the npm packages required in this project
+
 `npm i`
 
 4) Run the node application
+
 `node server.js`
 
 Note : Ensure you have already installed node and npm in your project. you can download from [here](https://nodejs.org/en/download/)
