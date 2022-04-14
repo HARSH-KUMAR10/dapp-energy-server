@@ -181,14 +181,6 @@ app.get("/createTransaction", (req, res) => {
   });
 });
 
-app.get('/getGunTransaction',(req,res)=>{
-  try{
-    res.json({success:true,data:gunDataArray});
-  }catch(err){
-    console.log(err);
-    res.json({success:false});
-  }
-})
 
 app.get("/readTransacionByEmail", (req, res) => {
   var request = req.query;
